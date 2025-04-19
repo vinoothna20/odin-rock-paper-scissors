@@ -44,11 +44,21 @@ function playGame() {
     const humanSelection = getHumanChoice();
     const computerSelection = getComputerChoice();
 
-    playRound(humanSelection, computerSelection);    
+    console.log("You: ", humanSelection);
+    console.log("computer: ", computerSelection);
+
+    playRound(humanSelection, computerSelection);
 }
 
-for (let i = 0; i < 5; i++) {   
-    playGame()
+for (let i = 1; i < 6; i++) {
+    console.log(`Round ${i}:`);
+
+    playGame();
+
+    console.log("Your Score: ", humanScore);
+    console.log("Computer Score: ", computerScore);
+
+    console.log("--------------------------------");
 }
 
 if (humanScore === computerScore) {
