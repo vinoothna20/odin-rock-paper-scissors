@@ -1,5 +1,22 @@
+const btnsList = document.querySelectorAll("#btns-cont");
+
+btnsList.forEach((btn) => btn.addEventListener("click", (e) => {
+    playRound(e.target.id);
+}))
+
 let humanScore = 0;
-let computerScore = 0
+let computerScore = 0;
+
+const choiceCont = document.querySelector("#choice-cont");
+
+const scoreCont = document.querySelector("#score-cont");
+
+const mainCont = document.querySelector("#main-cont");
+
+const humanChoicePara = document.createElement("p");
+const computerChoicePara = document.createElement("p");
+const humanScorePara = document.createElement("p");
+const computerScorePara = document.createElement("p");
 
 function getComputerChoice() {
     const randomValue = Math.floor(Math.random() * 100);
@@ -13,59 +30,100 @@ function getComputerChoice() {
     }
 }
 
-function getHumanChoice() {
-    const userChoice = prompt("Enter your choice");
+const startMessage = document.querySelector(".startMsg");
 
-    return userChoice.toLowerCase();
-}
+function playRound(humanSelection) {
 
-function playRound(humanChoice, computerChoice) {
+    if (humanScore === 5 || computerScore === 5) {
+        return;
+    }
+
+    startMessage.style.display = "none";
+
+    const humanChoice = humanSelection;
+    const computerChoice = getComputerChoice();
+
+    humanChoicePara.innerHTML = `<span>You:</span> ${humanChoice}`;
+    computerChoicePara.innerHTML = `<span>Computer:</span> ${computerChoice}`;
+
+    choiceCont.appendChild(humanChoicePara);
+    choiceCont.appendChild(computerChoicePara);
 
     if (humanChoice === computerChoice) {
+        displayScore();
         return;
-    } else if (humanChoice === "rock") {
-        computerChoice === "paper" ?
+    }
+
+    switch (humanChoice) {
+        case "rock": computerChoice === "paper" ?
             computerScore++ :
             humanScore++;
+            break;
 
-    } else if (humanChoice === "paper") {
-        computerChoice === "rock" ?
+        case "paper": computerChoice === "rock" ?
             humanScore++ :
             computerScore++;
+            break;
 
-    } else {
-        computerChoice === "rock" ?
+        case "scissors": computerChoice === "rock" ?
             computerScore++ :
             humanScore++;
+            break;
+    }
+
+    displayScore();
+}
+
+
+function displayScore() {
+    humanScorePara.innerHTML = `<span>Your Score:</span> ${humanScore}`;
+    computerScorePara.innerHTML = `<span>Computer Score:</span> ${computerScore}`;
+
+    scoreCont.appendChild(humanScorePara);
+    scoreCont.appendChild(computerScorePara);
+
+    if (humanScore === 5 || computerScore === 5) {
+        displayFinalMsg();
     }
 }
 
-function playGame() {
-    const humanSelection = getHumanChoice();
-    const computerSelection = getComputerChoice();
+const finalMsg = document.createElement("p");
+finalMsg.setAttribute("class", "msgEle");
 
-    console.log("You: ", humanSelection);
-    console.log("computer: ", computerSelection);
+const resetBtn = document.createElement("button");
+resetBtn.setAttribute("class", "resetBtnEle")
 
-    playRound(humanSelection, computerSelection);
+function displayFinalMsg() {
+    if (humanScore === 5 && computerScore === 5) {
+        finalMsg.innerText = "It's a draw match :|";
+        finalMsg.style.color = "blue";
+    } else if (humanScore === 5) {
+        finalMsg.innerText = "Hoooraayyyy!! Congratulations! You win :)";
+        finalMsg.style.color = "#0ffd0f";
+    } else if (computerScore === 5) {
+        finalMsg.innerHTML = `<pre>Oh, no! You lose. :(
+It's ok play again.</pre>`;
+        finalMsg.style.color = "red";
+    }
+
+    mainCont.appendChild(finalMsg);
+
+    resetBtn.innerText = "Reset";
+
+    mainCont.appendChild(resetBtn);
+
+    resetBtn.addEventListener("click", handleReset);
 }
 
-for (let i = 1; i < 6; i++) {
-    console.log(`Round ${i}:`);
+function handleReset() {
+    startMessage.style.display = "block";
 
-    playGame();
+    humanScore = 0;
+    computerScore = 0;
 
-    console.log("Your Score: ", humanScore);
-    console.log("Computer Score: ", computerScore);
+    choiceCont.innerHTML = "";
+    scoreCont.innerHTML = "";
 
-    console.log("--------------------------------");
+    finalMsg.remove();
+    resetBtn.remove();
 }
-
-if (humanScore === computerScore) {
-    console.log("It's a draw match :|");
-} else if (humanScore > computerScore) {
-    console.log("Hoooraayyyy!! Congratulations! You win :)");
-} else {
-    console.log("Oh, no! You lose. :( \nIt's ok play again.");
-}
-

@@ -1,16 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <h1>Rock Paper Scissors Game</h1>
+    <div id="main-cont">
+        <h1>Rock Paper Scissors</h1>
 
-    <h3>Check the results in console...</h3>
-    
+        <div id="btns-cont">
+            <img id="rock" title="Rock" src="images/rock.png" alt="showing rock with hand">
+            <img id="paper" title="Paper" src="images/paper.png" alt="showing paper with hand">
+           <img id="scissors" title="Scissors" src="images/scissors.png" alt="showing scissors with hand">
+        </div>
+
+        <h2 class="startMsg">Select your choice to start the game.</h3>
+
+        <div id="choice-cont"></div>
+
+        <div id="score-cont"></div>
+    </div>
+
 </body>
 <script src="script.js"></script>
+
 </html>
